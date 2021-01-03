@@ -3,7 +3,7 @@ from paho.mqtt.client import Client
 from threading import Thread, Lock
 from random import randint
 import struct
-
+import sys
 
 class ScanDelegate(DefaultDelegate):
     def __init__(self):
@@ -104,10 +104,14 @@ def list_devices(device_list):
 
 
 def main():
-    gw_host = "moodybase"
-    cert_path = "/home/mar/GolandProjects/moody-go/broker/ca.crt"
+    if len(sys.argv) != 3:
+        print("Only two arg expected ([1]host, [2]ca_crt)")
+        return
+    gw_host = sys.argv[1]
+    cert_path = sys.argv[2]
     devices = scan(2)
     moody_devices = list_devices(devices)
+    print(moody_devices)
 
     for device in moody_devices:
         MoodyBLEWrapper(device, gw_host, cert_path).start()
