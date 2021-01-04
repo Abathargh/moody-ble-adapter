@@ -5,6 +5,7 @@ from random import randint
 import struct
 import sys
 
+
 class ScanDelegate(DefaultDelegate):
     def __init__(self):
         DefaultDelegate.__init__(self)
@@ -71,9 +72,9 @@ class MoodyBLEWrapper(Thread):
                 peripheral.writeCharacteristic(value_char.valHandle + 1, b"\x01\x00")
 
             while self._running:
-                peripheral.waitForNotifications(5)
+                peripheral.waitForNotifications(1)
 
-        peripheral.disconnect()
+            peripheral.disconnect()
 
     def _connect(self, host, port=None):
         if not port:
@@ -119,5 +120,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
